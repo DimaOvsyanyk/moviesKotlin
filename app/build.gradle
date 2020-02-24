@@ -1,4 +1,12 @@
 apply plugin: 'com.android.application'
+apply plugin: "androidx.navigation.safeargs"
+apply plugin: 'com.novoda.build-properties'
+
+buildProperties {
+    secrets {
+        using project.file('secret.properties')
+    }
+}
 
 android {
     compileSdkVersion 29
@@ -11,19 +19,101 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            def appName = "MovieApp"
+            outputFileName = appName +
+                    "-${variant.buildType.name}" +
+                    "-${variant.versionName}.apk"
         }
+    }
+    buildTypes {
+        debug {
+            versionNameSuffix "-DEBUG"
+            debuggable true
+            shrinkResources false
+
+            buildConfigString 'API_KEY', buildProperties.secrets['ApiKey']
+            buildConfigString 'BASE_URL', buildProperties.secrets['BaseUrl']
+        }
+        release {
+            debuggable false
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            buildConfigString 'API_KEY', buildProperties.secrets['ApiKey']
+            buildConfigString 'BASE_URL', buildProperties.secrets['BaseUrl']
+        }
+    }
+    dataBinding {
+        enabled = true
+    }
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
     }
 }
 
 dependencies {
+    def nav_version = "2.2.1"
+    def paging_version = "2.1.1"
+    def lifecycle_version = "2.2.0"
+    def glide_version = "4.11.0"
+    def room_version = "2.2.4"
+    def dagger_version = "2.26"
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+
+    //navigation
+    implementation "androidx.navigation:navigation-fragment:$nav_version"
+    implementation "androidx.navigation:navigation-ui:$nav_version"
+
+    //paging
+    implementation "androidx.paging:paging-runtime:$paging_version"
+    implementation "androidx.paging:paging-rxjava2:$paging_version"
+
+    //lifecycle
+    implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle_version"
+    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
+
+    //room
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-rxjava2:$room_version"
+
+    //rxjava 2
+    implementation "io.reactivex.rxjava2:rxjava:2.2.15"
+    implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
+
+    //retrofit2
+    implementation 'com.squareup.retrofit2:retrofit:2.7.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.2.1'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
+
+    //moshi
+    implementation "com.squareup.retrofit2:converter-moshi:2.4.0"
+
+    //dagger
+    implementation "com.google.dagger:dagger:$dagger_version"
+    implementation "com.google.dagger:dagger-android:$dagger_version"
+    implementation "com.google.dagger:dagger-android-support:$dagger_version"
+    annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$dagger_version"
+
+    //glide
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+    annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
 }
