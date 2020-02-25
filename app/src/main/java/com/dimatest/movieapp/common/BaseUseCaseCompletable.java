@@ -1,22 +1,21 @@
 package com.dimatest.movieapp.common;
 
 import androidx.core.util.Preconditions;
-
+import io.reactivex.Completable;
 import io.reactivex.Scheduler;
-import io.reactivex.Single;
-import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.observers.DisposableCompletableObserver;
 
-public abstract class BaseUseCaseSingle<T, Params> extends BaseUseCase {
+public abstract class BaseUseCaseCompletable<Params> extends BaseUseCase{
 
-    BaseUseCaseSingle(Scheduler mainThread, Scheduler ioThread) {
+    BaseUseCaseCompletable(Scheduler mainThread, Scheduler ioThread) {
         super(mainThread, ioThread);
     }
 
-    abstract Single<T> buildUseCaseObservable(Params params);
+    abstract Completable buildUseCaseObservable(Params params);
 
-    public void execute(DisposableSingleObserver<T> observer, Params params) {
+    public void execute(Params params, DisposableCompletableObserver observer) {
         Preconditions.checkNotNull(observer);
-        final Single<T> observable = this.buildUseCaseObservable(params)
+        final Completable observable = this.buildUseCaseObservable(params)
                 .subscribeOn(ioThread)
                 .observeOn(mainThread)
                 .doOnSubscribe(__ -> isLoading.postValue(true))

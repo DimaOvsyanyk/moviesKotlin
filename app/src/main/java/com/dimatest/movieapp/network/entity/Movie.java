@@ -5,7 +5,6 @@ import com.squareup.moshi.Json;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Movie {

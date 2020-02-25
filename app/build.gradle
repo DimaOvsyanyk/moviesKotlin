@@ -58,7 +58,7 @@ android {
 dependencies {
     def nav_version = "2.2.1"
     def paging_version = "2.1.1"
-    def lifecycle_version = "2.2.0"
+    def lifecycle_version = "2.1.0"
     def glide_version = "4.11.0"
     def room_version = "2.2.4"
     def dagger_version = "2.26"
@@ -86,8 +86,8 @@ dependencies {
     //lifecycle
     implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle_version"
-    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
 
     //room
     implementation "androidx.room:room-runtime:$room_version"
