@@ -13,7 +13,11 @@ import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
 
+import com.dimatest.movieapp.BR;
+import com.dimatest.movieapp.MainActivity;
 import com.dimatest.movieapp.app.MovieApp;
 import com.dimatest.movieapp.di.ViewModelFactory;
 import com.dimatest.movieapp.di.component.AppComponent;
@@ -40,4 +44,19 @@ public abstract class BaseFragment<VM extends BaseViewModel, DB extends ViewData
         return dataBinding.getRoot();
     }
 
+    private MainActivity getMainActivity() {
+        return ((MainActivity) requireActivity());
+    }
+
+    private NavController getNavController() {
+        return getMainActivity().navController;
+    }
+
+    public void navigate(int actionId) {
+        getNavController().navigate(actionId);
+    }
+
+    public void navigate(NavDirections direction) {
+        getNavController().navigate(direction);
+    }
 }

@@ -11,7 +11,7 @@ import com.dimatest.movieapp.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
-    private NavController navController;
+    public NavController navController;
     private ActivityMainBinding binding;
 
     @Override

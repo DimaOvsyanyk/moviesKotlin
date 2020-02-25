@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dimatest.movieapp.BR;
+
 public abstract class BaseViewHolder<DB extends ViewDataBinding, T> extends RecyclerView.ViewHolder {
 
     public DB dataBinding;
