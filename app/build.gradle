@@ -34,8 +34,8 @@ android {
             shrinkResources false
 
             buildConfigString 'API_KEY', buildProperties.secrets['ApiKey']
-            buildConfigString 'BASE_URL', buildProperties.secrets['BaseUrl']
-            buildConfigString 'POSTER_URL', buildProperties.secrets['PosterUrl']
+            buildConfigString 'BASE_URL', 'https://api.themoviedb.org/3/'
+            buildConfigString 'POSTER_URL', 'https://image.tmdb.org/t/p/w342'
         }
         release {
             debuggable false
@@ -44,8 +44,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
             buildConfigString 'API_KEY', buildProperties.secrets['ApiKey']
-            buildConfigString 'BASE_URL', buildProperties.secrets['BaseUrl']
-            buildConfigString 'POSTER_URL', buildProperties.secrets['PosterUrl']
+            buildConfigString 'BASE_URL', 'https://api.themoviedb.org/3/'
+            buildConfigString 'POSTER_URL', 'https://image.tmdb.org/t/p/w342'
         }
     }
     dataBinding {
