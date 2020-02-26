@@ -1,5 +1,6 @@
 package com.dimatest.movieapp.network.entity;
 
+import com.dimatest.movieapp.BuildConfig;
 import com.dimatest.movieapp.database.entity.MovieDO;
 import com.squareup.moshi.Json;
 
@@ -194,9 +195,10 @@ public class Movie {
                 '}';
     }
 
-    private MovieDO mapToMovieDO() {
-        return new MovieDO(popularity, voteCount, video, posterPath, id, adult, backdropPath,
-                originalLanguage, originalTitle, getGenreIdsString(), title, voteAverage, overview, releaseDate);
+    public MovieDO mapToMovieDO() {
+        return new MovieDO(popularity, voteCount, video, BuildConfig.POSTER_URL + posterPath,
+                id, adult, BuildConfig.POSTER_URL + backdropPath, originalLanguage,
+                originalTitle, getGenreIdsString(), title, voteAverage, overview, releaseDate);
     }
 
     private String getGenreIdsString() {

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -14,10 +15,192 @@
         android:layout_height="match_parent"
         tools:context=".ui.movieDetails.MovieDetailsFragment">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Hello" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            android:scaleY="1.5"
+            android:scaleX="1.5"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            loadPosterWithBlur="@{viewModel.movieDetails.posterPath}"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@color/movie_details_back"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/topGuideLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="@dimen/space_xlarge" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/bottomGuideLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="@dimen/space_xlarge" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/startGuideLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/space_xlarge" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/endGuideLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/space_xlarge" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/poster"
+            loadPoster="@{viewModel.movieDetails.posterPath}"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="1:1.5"
+            app:layout_constraintStart_toEndOf="@id/startGuideLine"
+            app:layout_constraintTop_toBottomOf="@id/topGuideLine"
+            app:layout_constraintWidth_percent="0.4"
+            tools:background="@color/colorAccent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/scoreTitle"
+            style="@style/TextView.MovieTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/score"
+            android:layout_marginStart="@dimen/space_large"
+            android:layout_marginTop="@dimen/space_large"
+            app:layout_constraintStart_toEndOf="@id/poster"
+            app:layout_constraintBottom_toTopOf="@id/scoreTv"
+            app:layout_constraintTop_toBottomOf="@id/topGuideLine" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/scoreTv"
+            style="@style/TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_large"
+            app:layout_constraintStart_toEndOf="@id/poster"
+            app:layout_constraintTop_toBottomOf="@id/scoreTitle"
+            app:layout_constraintBottom_toTopOf="@id/ratingTitle"
+            rating="@{viewModel.movieDetails.voteAverage}"
+            tools:text="8.2" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/ratingTitle"
+            style="@style/TextView.MovieTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rating"
+            android:layout_marginStart="@dimen/space_large"
+            android:layout_marginTop="@dimen/space_large"
+            app:layout_constraintBottom_toTopOf="@id/ratingTv"
+            app:layout_constraintStart_toEndOf="@id/poster"
+            app:layout_constraintTop_toBottomOf="@id/scoreTv" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/ratingTv"
+            style="@style/TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_large"
+            app:layout_constraintStart_toEndOf="@id/poster"
+            app:layout_constraintBottom_toTopOf="@id/dateTitle"
+            app:layout_constraintTop_toBottomOf="@id/ratingTitle"
+            rating="@{viewModel.movieDetails.popularity}"
+            tools:text="R" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/dateTitle"
+            style="@style/TextView.MovieTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/release_date"
+            android:layout_marginStart="@dimen/space_large"
+            android:layout_marginTop="@dimen/space_large"
+            app:layout_constraintBottom_toTopOf="@id/dateTv"
+            app:layout_constraintStart_toEndOf="@id/poster"
+            app:layout_constraintTop_toBottomOf="@id/ratingTv" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/dateTv"
+            style="@style/TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_large"
+            android:layout_marginBottom="@dimen/space_large"
+            app:layout_constraintStart_toEndOf="@id/poster"
+            app:layout_constraintTop_toBottomOf="@id/dateTitle"
+            app:layout_constraintBottom_toBottomOf="@id/poster"
+            android:text="@{viewModel.movieDetails.releaseDate}"
+            tools:text="July 17, 2015" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/titleId"
+            style="@style/TextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:text="@{viewModel.movieDetails.originalTitle}"
+            android:textSize="36sp"
+            android:singleLine="false"
+            android:maxLines="2"
+            app:layout_constraintBottom_toTopOf="@id/bottomGuideLine"
+            app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+            app:layout_constraintStart_toEndOf="@id/startGuideLine"
+            app:layout_constraintTop_toBottomOf="@id/poster"
+            app:layout_constraintVertical_bias="0.08"
+            tools:text="Ant - man 2015" />
+
+        <View
+            android:id="@+id/topDescriptionDivider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/divider_color"
+            android:layout_marginTop="@dimen/space_xxlarge"
+            app:layout_constraintStart_toEndOf="@id/startGuideLine"
+            app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+            app:layout_constraintTop_toBottomOf="@id/titleId"/>
+
+        <View
+            android:id="@+id/bottomDescriptionDivider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/divider_color"
+            app:layout_constraintStart_toEndOf="@id/startGuideLine"
+            app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+            app:layout_constraintBottom_toTopOf="@id/bottomGuideLine"/>
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toEndOf="@id/startGuideLine"
+            app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+            app:layout_constraintTop_toBottomOf="@id/topDescriptionDivider"
+            app:layout_constraintBottom_toTopOf="@id/bottomDescriptionDivider">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/default_text_color"
+                android:textSize="18sp"
+                android:text="@{viewModel.movieDetails.overview}"/>
+
+        </ScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -3,11 +3,52 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background"
+        android:orientation="vertical"
         tools:context=".MainActivity">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/toolbarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:minHeight="?attr/actionBarSize"
+            android:background="@color/toolbar_back"
+            android:elevation="4dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/backBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_arrow_left"
+                android:drawablePadding="@dimen/space_xxsmall"
+                android:gravity="center"
+                android:padding="@dimen/space_xsmall"
+                android:text="@string/back"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/toolbarTitleTv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.6"
+                tools:text="Title" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <fragment
             android:id="@+id/main_nav_host"
@@ -18,5 +59,5 @@
             app:defaultNavHost="true"
             app:navGraph="@navigation/main_navigation" />
 
-    </FrameLayout>
+    </LinearLayout>
 </layout>

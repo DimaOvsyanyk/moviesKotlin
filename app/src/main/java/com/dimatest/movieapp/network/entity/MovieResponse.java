@@ -1,28 +1,29 @@
 package com.dimatest.movieapp.network.entity;
 
+import com.dimatest.movieapp.ui.movieList.models.MoviePagedData;
 import com.squareup.moshi.Json;
 
 import java.util.List;
 
 public class MovieResponse {
 
-    @Json(name = "result")
+    @Json(name = "results")
     private List<Movie> result;
     @Json(name = "page")
     private Integer page;
     @Json(name = "total_results")
-    private Long total_results;
+    private Long totalResults;
     @Json(name = "total_pages")
-    private Integer total_pages;
+    private Integer totalPages;
 
     public MovieResponse() {
     }
 
-    public MovieResponse(List<Movie> result, Integer page, Long total_results, Integer total_pages) {
+    public MovieResponse(List<Movie> result, Integer page, Long totalResults, Integer totalPages) {
         this.result = result;
         this.page = page;
-        this.total_results = total_results;
-        this.total_pages = total_pages;
+        this.totalResults = totalResults;
+        this.totalPages = totalPages;
     }
 
     public List<Movie> getResult() {
@@ -41,19 +42,23 @@ public class MovieResponse {
         this.page = page;
     }
 
-    public Long getTotal_results() {
-        return total_results;
+    public Long getTotalResults() {
+        return totalResults;
     }
 
-    public void setTotal_results(Long total_results) {
-        this.total_results = total_results;
+    public void setTotalResults(Long totalResults) {
+        this.totalResults = totalResults;
     }
 
-    public Integer getTotal_pages() {
-        return total_pages;
+    public Integer getTotalPages() {
+        return totalPages;
     }
 
-    public void setTotal_pages(Integer total_pages) {
-        this.total_pages = total_pages;
+    public void setTotalPages(Integer totalPages) {
+        this.totalPages = totalPages;
+    }
+
+    public MoviePagedData mapToPagedData() {
+        return new MoviePagedData(page, totalResults, totalPages);
     }
 }

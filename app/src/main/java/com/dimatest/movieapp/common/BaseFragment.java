@@ -44,6 +44,10 @@ public abstract class BaseFragment<VM extends BaseViewModel, DB extends ViewData
         return dataBinding.getRoot();
     }
 
+    protected void setTitle(String title) {
+        getMainActivity().setTitle(title);
+    }
+
     private MainActivity getMainActivity() {
         return ((MainActivity) requireActivity());
     }

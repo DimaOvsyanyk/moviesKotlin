@@ -8,4 +8,15 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="TextView">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/default_text_color</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="TextView.MovieTitle">
+        <item name="android:textColor">@color/title_text_color</item>
+    </style>
+
 </resources>

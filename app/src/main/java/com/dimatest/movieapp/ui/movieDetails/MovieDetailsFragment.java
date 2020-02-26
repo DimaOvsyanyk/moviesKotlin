@@ -1,38 +1,53 @@
 package com.dimatest.movieapp.ui.movieDetails;
 
-import androidx.lifecycle.ViewModelProviders;
-
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.dimatest.movieapp.R;
+import com.dimatest.movieapp.common.BaseFragment;
+import com.dimatest.movieapp.databinding.FragmentMovieDetailsBinding;
+import com.dimatest.movieapp.di.ViewModelFactory;
 
-public class MovieDetailsFragment extends Fragment {
+import javax.inject.Inject;
 
-    private MovieDetailsViewModel mViewModel;
+public class MovieDetailsFragment extends BaseFragment<MovieDetailsViewModel, FragmentMovieDetailsBinding> {
 
-    public static MovieDetailsFragment newInstance() {
-        return new MovieDetailsFragment();
+    @Inject
+    ViewModelFactory vmFactory;
+
+    @Override
+    protected int getLayoutRes() {
+        return R.layout.fragment_movie_details;
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_movie_details, container, false);
+    protected ViewModelFactory getVmFactory() {
+        return vmFactory;
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(MovieDetailsViewModel.class);
-        // TODO: Use the ViewModel
+    protected MovieDetailsViewModel buildViewModel(ViewModelProvider provider) {
+        return provider.get(MovieDetailsViewModel.class);
     }
 
+    @Override
+    protected void injectToComponent() {
+        appComponent.inject(this);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (getArguments() != null) {
+            MovieDetailsFragmentArgs args = MovieDetailsFragmentArgs.fromBundle(getArguments());
+            long id = args.getMovieId();
+            String title = args.getTitle();
+            viewModel.getMovie(id);
+            setTitle(title);
+        }
+    }
 }

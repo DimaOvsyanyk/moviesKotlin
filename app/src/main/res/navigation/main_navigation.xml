@@ -9,7 +9,14 @@
         android:id="@+id/movieDetailsFragment"
         android:name="com.dimatest.movieapp.ui.movieDetails.MovieDetailsFragment"
         android:label="fragment_movie_details"
-        tools:layout="@layout/fragment_movie_details" />
+        tools:layout="@layout/fragment_movie_details" >
+        <argument
+            android:name="movieId"
+            app:argType="long" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/splashScreenFragment"
         android:name="com.dimatest.movieapp.ui.splash.SplashScreenFragment"

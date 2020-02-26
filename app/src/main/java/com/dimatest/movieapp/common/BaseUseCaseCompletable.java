@@ -7,11 +7,11 @@ import io.reactivex.observers.DisposableCompletableObserver;
 
 public abstract class BaseUseCaseCompletable<Params> extends BaseUseCase{
 
-    BaseUseCaseCompletable(Scheduler mainThread, Scheduler ioThread) {
+    public BaseUseCaseCompletable(Scheduler mainThread, Scheduler ioThread) {
         super(mainThread, ioThread);
     }
 
-    abstract Completable buildUseCaseObservable(Params params);
+    abstract protected Completable buildUseCaseObservable(Params params);
 
     public void execute(Params params, DisposableCompletableObserver observer) {
         Preconditions.checkNotNull(observer);
@@ -19,7 +19,7 @@ public abstract class BaseUseCaseCompletable<Params> extends BaseUseCase{
                 .subscribeOn(ioThread)
                 .observeOn(mainThread)
                 .doOnSubscribe(__ -> isLoading.postValue(true))
-                .doOnTerminate(() -> isLoading.postValue(true))
+                .doOnTerminate(() -> isLoading.postValue(false))
                 .doOnDispose(() -> isLoading.postValue(false));
         addDisposable(observable.subscribeWith(observer));
     }

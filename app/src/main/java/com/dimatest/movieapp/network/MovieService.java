@@ -11,6 +11,6 @@ public interface MovieService {
     @GET("movie/now_playing")
     Single<MovieResponse> getMovies(
             @Query("api_key") String apiKey,
-            @Query("page") String page
+            @Query("page") int page
     );
 }

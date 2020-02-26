@@ -35,6 +35,7 @@ android {
 
             buildConfigString 'API_KEY', buildProperties.secrets['ApiKey']
             buildConfigString 'BASE_URL', buildProperties.secrets['BaseUrl']
+            buildConfigString 'POSTER_URL', buildProperties.secrets['PosterUrl']
         }
         release {
             debuggable false
@@ -44,6 +45,7 @@ android {
 
             buildConfigString 'API_KEY', buildProperties.secrets['ApiKey']
             buildConfigString 'BASE_URL', buildProperties.secrets['BaseUrl']
+            buildConfigString 'POSTER_URL', buildProperties.secrets['PosterUrl']
         }
     }
     dataBinding {

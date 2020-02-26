@@ -1,38 +1,80 @@
 package com.dimatest.movieapp.ui.movieList;
 
-import androidx.lifecycle.ViewModelProviders;
-
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.dimatest.movieapp.R;
+import com.dimatest.movieapp.common.BaseFragment;
+import com.dimatest.movieapp.database.entity.MovieDO;
+import com.dimatest.movieapp.databinding.FragmentMovieListBinding;
+import com.dimatest.movieapp.di.ViewModelFactory;
+import com.dimatest.movieapp.ui.movieList.adapter.MovieListAdapter;
 
-public class MovieListFragment extends Fragment {
+import javax.inject.Inject;
 
-    private MovieListViewModel mViewModel;
+public class MovieListFragment extends BaseFragment<MovieListViewModel, FragmentMovieListBinding>
+        implements MovieListAdapter.MovieSelectedListener {
 
-    public static MovieListFragment newInstance() {
-        return new MovieListFragment();
+    @Inject
+    ViewModelFactory vmFactory;
+
+    @Override
+    protected int getLayoutRes() {
+        return R.layout.fragment_movie_list;
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_movie_list, container, false);
+    protected ViewModelFactory getVmFactory() {
+        return vmFactory;
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(MovieListViewModel.class);
-        // TODO: Use the ViewModel
+    protected MovieListViewModel buildViewModel(ViewModelProvider provider) {
+        return provider.get(MovieListViewModel.class);
     }
 
+    @Override
+    protected void injectToComponent() {
+        appComponent.inject(this);
+    }
+
+    private MovieListAdapter adapter;
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setTitle(getString(R.string.main_title));
+        adapter = new MovieListAdapter(this);
+        setupList();
+        observeModel();
+        setupListeners();
+    }
+
+    private void setupListeners() {
+        dataBinding.swipeLayout.setOnRefreshListener(() -> viewModel.loadFirstPage());
+    }
+
+    private void setupList() {
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(requireContext(), 2);
+        dataBinding.movieListRv.setLayoutManager(gridLayoutManager);
+        dataBinding.movieListRv.setAdapter(adapter);
+    }
+
+    private void observeModel() {
+        viewModel.getMovieList().observe(getViewLifecycleOwner(), movies -> adapter.submitList(movies));
+        viewModel.getMoviesLoading().observe(getViewLifecycleOwner(), loading -> {
+            dataBinding.swipeLayout.setRefreshing(loading);
+            viewModel.setMoviesLoading(loading);
+        });
+    }
+
+    @Override
+    public void movieSelected(MovieDO movie) {
+        navigate(MovieListFragmentDirections.actionMovieListFragmentToMovieDetailsFragment(movie.getId(), movie.getTitle()));
+    }
 }
