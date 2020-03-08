@@ -31,7 +31,6 @@ val networkModule = module {
     single {
         Retrofit.Builder().baseUrl(BuildConfig.BASE_URL)
                 .client(get())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(MoshiConverterFactory.create())
                 .build()
     }

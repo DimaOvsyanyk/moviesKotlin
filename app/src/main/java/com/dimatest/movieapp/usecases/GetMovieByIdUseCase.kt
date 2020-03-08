@@ -1,17 +1,14 @@
 package com.dimatest.movieapp.usecases
 
-import com.dimatest.movieapp.common.BaseUseCaseSingle
+import com.dimatest.movieapp.common.BaseUseCaseWithResult
 import com.dimatest.movieapp.database.entity.MovieDO
 import com.dimatest.movieapp.repositories.local.MovieLocalRepositoryInterface
-import io.reactivex.Scheduler
-import io.reactivex.Single
 
 class GetMovieByIdUseCase(
-        mainThread: Scheduler, ioThread: Scheduler,
         private val movieLocalRepository: MovieLocalRepositoryInterface
-) : BaseUseCaseSingle<MovieDO, GetMovieByIdUseCase.Data>(mainThread, ioThread) {
+) : BaseUseCaseWithResult<MovieDO, GetMovieByIdUseCase.Data>() {
 
-    override fun buildUseCaseObservable(params: Data): Single<MovieDO> {
+    override suspend fun run(params: Data): MovieDO {
         return movieLocalRepository.getMovieById(params.id)
     }
 

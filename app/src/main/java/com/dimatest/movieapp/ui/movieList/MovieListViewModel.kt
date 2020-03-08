@@ -1,6 +1,8 @@
 package com.dimatest.movieapp.ui.movieList
 
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.viewModelScope
 import androidx.paging.PagedList
 import androidx.paging.PagedList.BoundaryCallback
 import com.dimatest.movieapp.common.BaseViewModel
@@ -15,6 +17,7 @@ class MovieListViewModel(
 ) : BaseViewModel() {
 
     val movieList: LiveData<PagedList<MovieDO>>
+    val isLoading = ObservableBoolean(false)
 
     private val loadMovieCallback: BoundaryCallback<MovieDO> = object : BoundaryCallback<MovieDO>() {
 
@@ -24,7 +27,6 @@ class MovieListViewModel(
         }
     }
     private var hasMoreMovies = true
-    private var isMoviesLoading = false
     private var page = Const.START_PAGE
 
     init {
@@ -39,24 +41,13 @@ class MovieListViewModel(
     }
 
     private fun loadMovies() {
-        if (!isMoviesLoading && hasMoreMovies) {
-            fetchMovieListUseCase.execute(
-                    FetchMovieListUseCase.Data(page),
-                    onSuccess = {
-                        page = it.nextPage
-                        hasMoreMovies = it.hasMoreMovies()
-                    })
+        if (!isLoading.get() && hasMoreMovies) {
+            fetchMovieListUseCase.invoke(viewModelScope, FetchMovieListUseCase.Data(page)) {
+                page = it.nextPage
+                hasMoreMovies = it.hasMoreMovies()
+            }
         }
     }
 
-    fun getMoviesLoading() =  fetchMovieListUseCase.isLoading
-
-    fun setMoviesLoading(moviesLoading: Boolean) {
-        isMoviesLoading = moviesLoading
-    }
-
-    override fun onCleared() {
-        fetchMovieListUseCase.clearDisposable()
-        super.onCleared()
-    }
+    fun moviesLoading() = fetchMovieListUseCase.isLoading
 }

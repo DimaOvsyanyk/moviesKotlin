@@ -1,8 +1,10 @@
 package com.dimatest.movieapp.utils
 
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -26,4 +28,10 @@ fun loadPosterWithBlur(imageView: ImageView, url: String?) {
 @BindingAdapter("rating")
 fun setRating(textView: TextView, rating: Double) {
     textView.text = rating.toString()
+}
+
+@BindingAdapter("isRefreshing")
+fun setRefreshing(swipeLayout: SwipeRefreshLayout, refreshing: Boolean?) {
+    Log.e("setRefreshing", "setRefreshing = $refreshing")
+    swipeLayout.isRefreshing = refreshing ?: false
 }

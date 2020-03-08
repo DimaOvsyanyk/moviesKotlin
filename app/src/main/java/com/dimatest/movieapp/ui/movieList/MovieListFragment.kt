@@ -42,9 +42,8 @@ class MovieListFragment : BaseFragment<MovieListViewModel, FragmentMovieListBind
 
     private fun observeModel() {
         viewModel.movieList.observe(viewLifecycleOwner, Observer { movies -> adapter.submitList(movies) })
-        viewModel.getMoviesLoading().observe(viewLifecycleOwner, Observer { loading: Boolean ->
-            dataBinding.swipeLayout.isRefreshing = loading
-            viewModel.setMoviesLoading(loading)
+        viewModel.moviesLoading().observe(viewLifecycleOwner, Observer { loading ->
+            viewModel.isLoading.set(loading)
         })
     }
 

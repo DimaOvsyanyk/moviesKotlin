@@ -13,6 +13,7 @@
         android:id="@+id/swipeLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        isRefreshing="@{viewModel.isLoading}"
         tools:context=".ui.movieList.MovieListFragment">
 
         <androidx.recyclerview.widget.RecyclerView
